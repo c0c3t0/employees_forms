@@ -1,0 +1,68 @@
+{% extends 'home.html' %}
+
+{% block content %}
+
+    <h2>Bound/Django Forms</h2>
+    <form method="post" action="{% url 'create employee' %}">
+        {% csrf_token %}
+
+        {{ employee_form }}
+        <button>Save</button>
+    </form>
+    <form method="get" action="{% url 'create employee' %}">
+        {{ employee_order_by_form }}
+        {% csrf_token %}
+
+        <button>Order</button>
+
+    </form>
+    <table class="table">
+        <tr>
+            <th>Image</th>
+            <th scope="col">First name</th>
+            <th scope="col">Last name</th>
+            <th scope="col">Job title</th>
+            <th scope="col">Company</th>
+            <th scope="col">Action</th>
+        </tr>
+        {% for employee in employees %}
+            <tr>
+                <td>
+                    {% if employee.image %}
+                        <img height="40" src="{{ employee.image.url }}">
+                    {% else %}
+                        No image
+                    {% endif %}
+                </td>
+                <td>{{ employee.first_name }}</td>
+                <td>{{ employee.last_name }}</td>
+                <td>{{ employee.job_title }}</td>
+                <td>{{ employee.company }}</td>
+                <td><a href="{% url 'edit employee' employee.pk %}">Edit</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+
+
+
+    <h2>Unbound/HTML Forms</h2>
+    <form>
+        {% csrf_token %}
+
+        <input type="checkbox">
+        <input type="checkbox">
+        <input type="checkbox">
+        <input type="text" required>
+        <input type="range">
+        <input type="number" required>
+        <input type="email" required>
+        <select>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+        </select>
+        <input type="radio" name="radios">
+        <input type="radio" name="radios">
+        <button>Save</button>
+    </form>
+{% endblock %}
